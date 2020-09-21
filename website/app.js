@@ -1,10 +1,9 @@
 /* Global Variables */
-const baseURL = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 const key = 'f2f31957edf139a466de990c3e23d3e8';
+const webAPI = 'https://api.openweathermap.org/data/2.5/weather?zip=';
 // example = api.openweathermap.org/data/2.5/weather?zip={zip code},{country code}&appid={your api key}
 
 let d = new Date();
-let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
 document.getElementById('generate').addEventListener('click', handleGenerateRequest);
 
@@ -12,10 +11,10 @@ function handleGenerateRequest(e) {
     const newZip = document.getElementById('zip').value;
     const content = document.getElementById('feelings').value;
 
-    getWeather(baseURL, newZip, key)
+    getWeather(webAPI, newZip, key)
         .then(function (userData) {
-            console.log({ date: newDate, temp: userData.main.temp , content:content});
-            postData('http://localhost:8000/add', { date: newDate, temp: userData.main.temp,content })
+            console.log({ date: d.getDate(), temp: userData.main.temp , content:content});
+            postData('http://localhost:8000/add', { date: d.getDate(), temp: userData.main.temp,content })
         }).then(function (newData) {
             updateUI()
     })
@@ -23,7 +22,7 @@ function handleGenerateRequest(e) {
 }
 
 const getWeather= async (baseURL, input, key)=>{
-    const response = await fetch(baseURL + input + ',us' + '&appid=' + key)
+    const response = await fetch(baseURL + input + ',us&appid=' + key)
     console.log(response);
     try {
         const data = await response.json();
