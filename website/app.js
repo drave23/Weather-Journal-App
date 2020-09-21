@@ -6,13 +6,9 @@ const key = 'f2f31957edf139a466de990c3e23d3e8';
 let d = new Date();
 let newDate = d.getMonth()+'.'+ d.getDate()+'.'+ d.getFullYear();
 
-
-
 document.getElementById('generate').addEventListener('click', handleGenerateRequest);
 
 function handleGenerateRequest(e) {
-    e.preventDefault();
-    // get user input values
     const newZip = document.getElementById('zip').value;
     const content = document.getElementById('feelings').value;
 
@@ -21,13 +17,11 @@ function handleGenerateRequest(e) {
             console.log({ date: newDate, temp: userData.main.temp , content:content});
             postData('http://localhost:8000/add', { date: newDate, temp: userData.main.temp,content })
         }).then(function (newData) {
-        updateUI()
+            updateUI()
     })
 
 }
 
-
-//get
 const getWeather= async (baseURL, input, key)=>{
     const response = await fetch(baseURL + input + ',us' + '&appid=' + key)
     console.log(response);
@@ -68,11 +62,9 @@ const updateUI = async () => {
     const request = await fetch('http://localhost:8000/all');
     try {
         const allData = await request.json()
-        console.log('try' + allData + 'try');
         document.getElementById('date').innerHTML = allData.date;
         document.getElementById('temp').innerHTML = allData.temp;
         document.getElementById('content').innerHTML = allData.content;
-        console.log('now');
 
     }
     catch (error) {
